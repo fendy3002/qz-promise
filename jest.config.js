@@ -7,5 +7,6 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
+  testMatch: ["**/*.spec.ts"],
   reporters: ['default'],
 };
