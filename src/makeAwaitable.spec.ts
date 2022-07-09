@@ -25,7 +25,7 @@ describe(`Awaitable`, () => {
       executeAwait: () => context.executionTimes++,
     };
     const awaitableTest = new AwaitableTest(context);
-    let result = await awaitableTest;
+    const result = await awaitableTest;
 
     expect(result).toBe('Awaited result');
     expect(context.executionTimes).toBe(1);
@@ -36,7 +36,7 @@ describe(`Awaitable`, () => {
       executeAwait: () => context.executionTimes++,
     };
     const awaitableTest = new AwaitableTest(context);
-    let result = await awaitableTest.setResultValue('New await result');
+    const result = await awaitableTest.setResultValue('New await result');
 
     expect(result).toBe('New await result');
     expect(context.executionTimes).toBe(1);
