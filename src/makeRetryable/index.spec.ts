@@ -29,4 +29,22 @@ describe(`makeRetryable`, () => {
       expect(ex.message).toBe('custom error');
     }
   });
+  it(`it will do a 10ms process and retry 3 times with 10ms delay in between`, async () => {
+    let executionTimes = 0;
+    expect.hasAssertions();
+    const nowTs = new Date().getTime();
+    try {
+      await makeRetryable(async () => {
+        executionTimes++;
+        await delay(10);
+        throw new Error('custom error');
+      })
+        .forTimes(3)
+        .withDelay(10);
+    } catch (ex) {
+      expect(executionTimes).toBe(4);
+      expect(ex.message).toBe('custom error');
+      expect(nowTs).toBeGreaterThanOrEqual(80);
+    }
+  });
 });
