@@ -1,0 +1,30 @@
+{
+  "name": "@fendy3002/qz-promise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:cov": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fendy3002/qz-promise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fendy3002/qz-promise/issues"
+  },
+  "homepage": "https://github.com/fendy3002/qz-promise#readme",
+  "devDependencies": {
+    "@types/jest": "^28.1.4",
+    "@types/node": "^18.0.3",
+    "eslint": "^8.19.0",
+    "jest": "^28.1.2",
+    "prettier": "^2.7.1",
+    "ts-jest": "^28.0.5",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  }
+}
