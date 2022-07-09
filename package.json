@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepare": "npm run rebuild",
+    "build": "tsc",
+    "rebuild": "rm -rf ./dist && tsc",
     "test": "jest",
     "test:cov": "jest --coverage"
   },
