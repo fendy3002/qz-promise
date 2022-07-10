@@ -98,6 +98,8 @@ const performProcess = async () => {
 A Higher-Order Function that enables a promise handler to retry when it resulted in error. It can retry for x times, or until a duration of time has elapsed, or a combination of both (whatever faster is achieved). Example of use to enable retry of a handler for 3 times (meaning it'll run once, and will keep trying 3 more times when error):
 
 ```javascript
+import { makeRetryable } from '@fendy3002/qz-promise';
+
 let executionTimes = 0;
 try {
   await makeRetryable(async () => {
@@ -112,6 +114,8 @@ try {
 Or if we want it to keep retrying for 10 seconds with 1 seconds delay in between:
 
 ```javascript
+import { makeRetryable } from '@fendy3002/qz-promise';
+
 let executionTimes = 0;
 try {
   await makeRetryable(async () => {
@@ -126,6 +130,8 @@ try {
 
 If we want to perform some logging or activity in between retry, we can use `onRetrying` handler:
 ```javascript
+import { makeRetryable } from '@fendy3002/qz-promise';
+
 let executionTimes = 0;
 let onRetryingTimes = 0;
 try {
