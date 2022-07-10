@@ -1,8 +1,11 @@
 {
   "name": "@fendy3002/qz-promise",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A collection of utilities to handle promise",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prepare": "npm run rebuild",
     "build": "tsc",
