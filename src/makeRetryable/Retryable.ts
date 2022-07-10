@@ -7,6 +7,7 @@ export class BaseRetryable<T> implements IAwaitable<T> {
   private limitTimes = 0;
   private limitDuration = 0;
   private retryDelay = 0;
+  private onRetryingHandler: () => Promise<void> = null;
 
   forTimes(times) {
     this.limitTimes = times;
@@ -18,6 +19,10 @@ export class BaseRetryable<T> implements IAwaitable<T> {
   }
   forDuration(duration) {
     this.limitDuration = duration;
+    return this;
+  }
+  onRetrying(handler: () => Promise<void>) {
+    this.onRetryingHandler = handler;
     return this;
   }
 
@@ -41,6 +46,10 @@ export class BaseRetryable<T> implements IAwaitable<T> {
     let retryTimes = 0;
     let lastErr = null;
     while (this.canRetry(retryTimes, elapsed)) {
+      if (retryTimes > 0 && this.onRetryingHandler) {
+        await this.onRetryingHandler();
+      }
+
       try {
         return await this.handler();
       } catch (ex: any) {

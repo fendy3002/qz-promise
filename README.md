@@ -56,7 +56,7 @@ class AwaitableTest extends Awaitable<string> {
 }
 ```
 
-## By using `makeAwaitable` function
+## By using `makeAwaitable` Higher-Order Function
 
 In case somehow that the class need to be inherited from another class already, we can use `makeAwaitable<T>` to make it Promise-able, without needing to inherit from `Awaitable<T>`. The class needs to implement `IAwaitable<T>` interface and define the `onAwait` method like the example below:
 
@@ -95,7 +95,54 @@ const performProcess = async () => {
 
 # makeRetryable
 
+A Higher-Order Function that enables a promise handler to retry when it resulted in error. It can retry for x times, or until a duration of time has elapsed, or a combination of both (whatever faster is achieved). Example of use to enable retry of a handler for 3 times (meaning it'll run once, and will keep trying 3 more times when error):
 
+```javascript
+let executionTimes = 0;
+try {
+  await makeRetryable(async () => {
+    executionTimes++;
+    throw new Error('custom error');
+  }).forTimes(3);
+} catch (ex) {
+  // executionTimes should be 4
+}
+```
+
+Or if we want it to keep retrying for 10 seconds with 1 seconds delay in between:
+
+```javascript
+let executionTimes = 0;
+try {
+  await makeRetryable(async () => {
+    executionTimes++;
+    throw new Error('custom error');
+  }).forDuration(10 * 1000) // 10 seconds
+  .withDelay(1000); // 1 seconds delay
+} catch (ex) {
+  // execution times should be around 10 or 11 times
+}
+```
+
+If we want to perform some logging or activity in between retry, we can use `onRetrying` handler:
+```javascript
+let executionTimes = 0;
+let onRetryingTimes = 0;
+try {
+  await makeRetryable(async () => {
+    executionTimes++;
+    throw new Error('custom error');
+  })
+    .forTimes(3)
+    .onRetrying(async () => {
+      onRetryingTimes++;
+      // can do logging here
+    });
+} catch (ex) {
+  // executionTimes should be 4
+  // onRetryingTimes should be 3
+}
+```
 
 # inBatchOf
 

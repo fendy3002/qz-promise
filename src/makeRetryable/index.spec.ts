@@ -15,6 +15,25 @@ describe(`makeRetryable`, () => {
       expect(ex.message).toBe('custom error');
     }
   });
+  it(`it will do once and retry 3 times triggering onRetry handler`, async () => {
+    let executionTimes = 0;
+    let onRetryingTimes = 0;
+    expect.hasAssertions();
+    try {
+      await makeRetryable(async () => {
+        executionTimes++;
+        throw new Error('custom error');
+      })
+        .forTimes(3)
+        .onRetrying(async () => {
+          onRetryingTimes++;
+        });
+    } catch (ex) {
+      expect(executionTimes).toBe(4);
+      expect(onRetryingTimes).toBe(3);
+      expect(ex.message).toBe('custom error');
+    }
+  });
   it(`will keep retry for 1 seconds`, async () => {
     let executionTimes = 0;
     expect.hasAssertions();
